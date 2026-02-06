@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFSU Tripura Campus Sports Day</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="home">
+
+<!-- ================= HEADING ================= -->
+
+<h1 class="title">NFSU Tripura Campus Sports Day</h1>
+
+<!-- ================= CONTAINER ================= -->
+
+<div class="container">
+
+    <!-- ============ INDIVIDUAL SPORTS ============ -->
+
+    <div class="card">
+
+        <h2>Individual Sports</h2>
+
+        <form action="/search" method="post">
+
+            <select name="sport" required>
+
+                <option value="">-- Select Sport --</option>
+
+                <option value="Athletics - Sprint">🏃 Athletics - Sprint (100 m)</option>
+                <option value="Athletics - Long Run">🏃 Athletics - Long Run (1600 m)</option>
+                <option value="Relay Race">🏁 Relay Race (4×100 m)</option>
+
+                <option value="Cricket">🏏 Cricket</option>
+                <option value="Football">⚽ Football</option>
+                <option value="Volleyball">🏐 Volleyball</option>
+
+                <option value="Badminton">🏸 Badminton</option>
+                <option value="Table Tennis">🏓 Table Tennis</option>
+
+                <option value="Tug of War">🪢 Tug of War</option>
+                <option value="Shot Put">🏋️ Shot Put</option>
+                <option value="Carrom">🎯 Carrom</option>
+
+                <option value="Throw Ball">🏃 Throw Ball (Only for Girls)</option>
+                <option value="Chess">♟ Chess</option>
+                <option value="Chinese Checker">🧩 Chinese Checker</option>
+
+            </select>
+
+            <br><br>
+
+            <button type="submit">Enter</button>
+
+        </form>
+
+    </div>
+
+    <!-- ============ TEAM SPORTS ============ -->
+
+    <div class="card">
+
+        <h2>Sports (Team)</h2>
+
+        <form action="/search" method="post">
+
+            <select name="team_sport" required>
+
+                <option value="">-- Select Team Sport --</option>
+
+                <option value="Badminton - Doubles">🏸 Badminton - Doubles</option>
+                <option value="Badminton - Mixed Doubles">🏸 Badminton - Mixed Doubles</option>
+                <option value="Badminton - Singles">🏸 Badminton - Singles</option>
+
+                <option value="Table Tennis - Singles">🏓 Table Tennis - Singles</option>
+                <option value="Table Tennis - Doubles">🏓 Table Tennis - Doubles</option>
+                <option value="Table Tennis - Mixed Doubles">🏓 Table Tennis - Mixed Doubles</option>
+
+                <option value="Relay Race">🏁 Relay Race (Team of 4)</option>
+
+                <option value="Carrom (Doubles or Mix Double)">🎯 Carrom (Doubles or Mix Double)</option>
+                <option value="Carrom (Singles)">🎯 Carrom (Singles)</option>
+
+            </select>
+
+            <br><br>
+
+            <button type="submit">Enter</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

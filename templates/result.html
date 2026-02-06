@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="result-page">
+
+<!-- ================= TITLE ================= -->
+
+<h2>{{ sport }}</h2>
+
+<!-- ================= NO DATA MESSAGE ================= -->
+
+{% if grouped_data|length == 0 %}
+<h3 style="text-align:center;color:red;">
+    No data found for this sport
+</h3>
+{% endif %}
+
+<!-- ================= DATA TABLES ================= -->
+
+{% for branch, students in grouped_data.items() %}
+
+<h3>{{ branch }}</h3>
+
+<div style="overflow-x:auto;">
+
+<table>
+
+<tr>
+    <th>S.No</th>
+    <th>Full Name</th>
+    <th>Semester</th>
+    <th>Gender</th>
+    <th>Programme / Branch</th>
+    <th>Phone Number</th>
+
+    {% if team %}
+        <th>Team Members</th>
+    {% endif %}
+</tr>
+
+{% for row in students %}
+<tr>
+    <td>{{ row["SNO"] }}</td>
+    <td>{{ row["Full Name"] }}</td>
+    <td>{{ row["Semester"] }}</td>
+    <td>{{ row["Gender"] }}</td>
+    <td>{{ row["Programme / Branch"] }}</td>
+    <td>{{ row["Phone Number"] }}</td>
+
+    {% if team %}
+        <td>{{ row[team_col] }}</td>
+    {% endif %}
+</tr>
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endfor %}
+
+<!-- ================= BACK ================= -->
+
+<a href="/">⬅ Back to Home</a>
+
+</body>
+</html>
