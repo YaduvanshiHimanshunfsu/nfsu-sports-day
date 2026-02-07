@@ -1,98 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NFSU Tripura Campus Sports Day</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="/static/style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 
 <body class="home">
 
-<!-- ================= HEADING ================= -->
+    <!-- ================= MAIN TITLE ================= -->
 
-<h1 class="title">NFSU Tripura Campus Sports Day</h1>
+    <h1 class="title">
+        NFSU Tripura Campus <br> Sports Day
+    </h1>
 
-<!-- ================= CONTAINER ================= -->
+    <!-- ================= CARDS CONTAINER ================= -->
 
-<div class="container">
+    <div class="container">
 
-    <!-- ============ INDIVIDUAL SPORTS ============ -->
+        <!-- ============ INDIVIDUAL SPORTS CARD ============ -->
 
-    <div class="card">
+        <div class="card">
+            <h2>🏃 Individual Sports</h2>
 
-        <h2>Individual Sports</h2>
+            <form action="/search" method="POST">
 
-        <form action="/search" method="post">
+                <select name="sport" required>
+                    <option value="">— Select Individual Sport —</option>
 
-            <select name="sport" required>
+                    <option value="Athletics - Sprint">🏃 Athletics – Sprint (100 m)</option>
+                    <option value="Athletics - Long Run">🏃 Athletics – Long Run (1600 m)</option>
+                    <option value="Relay Race">🏁 Relay Race (4×100 m)</option>
 
-                <option value="">-- Select Sport --</option>
+                    <option value="Cricket">🏏 Cricket</option>
+                    <option value="Football">⚽ Football</option>
+                    <option value="Volleyball">🏐 Volleyball</option>
 
-                <option value="Athletics - Sprint">🏃 Athletics - Sprint (100 m)</option>
-                <option value="Athletics - Long Run">🏃 Athletics - Long Run (1600 m)</option>
-                <option value="Relay Race">🏁 Relay Race (4×100 m)</option>
+                    <option value="Badminton">🏸 Badminton</option>
+                    <option value="Table Tennis">🏓 Table Tennis</option>
 
-                <option value="Cricket">🏏 Cricket</option>
-                <option value="Football">⚽ Football</option>
-                <option value="Volleyball">🏐 Volleyball</option>
+                    <option value="Tug of War">🪢 Tug of War</option>
+                    <option value="Shot Put">🏋️ Shot Put</option>
+                    <option value="Carrom">🎯 Carrom</option>
 
-                <option value="Badminton">🏸 Badminton</option>
-                <option value="Table Tennis">🏓 Table Tennis</option>
+                    <option value="Throw Ball">🏃 Throw Ball (Only for Girls)</option>
+                    <option value="Chess">♟ Chess</option>
+                    <option value="Chinese Checker">🧩 Chinese Checker</option>
+                </select>
 
-                <option value="Tug of War">🪢 Tug of War</option>
-                <option value="Shot Put">🏋️ Shot Put</option>
-                <option value="Carrom">🎯 Carrom</option>
+                <button type="submit">View Data</button>
+            </form>
+        </div>
 
-                <option value="Throw Ball">🏃 Throw Ball (Only for Girls)</option>
-                <option value="Chess">♟ Chess</option>
-                <option value="Chinese Checker">🧩 Chinese Checker</option>
+        <!-- ============ TEAM SPORTS CARD ============ -->
 
-            </select>
+        <div class="card">
+            <h2>👥 Team Sports</h2>
 
-            <br><br>
+            <form action="/search" method="POST">
 
-            <button type="submit">Enter</button>
+                <select name="team_sport" required>
+                    <option value="">— Select Team Sport —</option>
 
-        </form>
+                    <option value="Badminton - Doubles">🏸 Badminton – Doubles</option>
+                    <option value="Badminton - Mixed Doubles">🏸 Badminton – Mixed Doubles</option>
+                    <option value="Badminton - Singles">🏸 Badminton – Singles</option>
 
-    </div>
+                    <option value="Table Tennis - Singles">🏓 Table Tennis – Singles</option>
+                    <option value="Table Tennis - Doubles">🏓 Table Tennis – Doubles</option>
+                    <option value="Table Tennis - Mixed Doubles">🏓 Table Tennis – Mixed Doubles</option>
 
-    <!-- ============ TEAM SPORTS ============ -->
+                    <option value="Relay Race">🏁 Relay Race (Team of 4)</option>
 
-    <div class="card">
+                    <option value="Carrom (Doubles or Mix Double)">🎯 Carrom – Doubles / Mixed</option>
+                    <option value="Carrom (Singles)">🎯 Carrom – Singles</option>
+                </select>
 
-        <h2>Sports (Team)</h2>
-
-        <form action="/search" method="post">
-
-            <select name="team_sport" required>
-
-                <option value="">-- Select Team Sport --</option>
-
-                <option value="Badminton - Doubles">🏸 Badminton - Doubles</option>
-                <option value="Badminton - Mixed Doubles">🏸 Badminton - Mixed Doubles</option>
-                <option value="Badminton - Singles">🏸 Badminton - Singles</option>
-
-                <option value="Table Tennis - Singles">🏓 Table Tennis - Singles</option>
-                <option value="Table Tennis - Doubles">🏓 Table Tennis - Doubles</option>
-                <option value="Table Tennis - Mixed Doubles">🏓 Table Tennis - Mixed Doubles</option>
-
-                <option value="Relay Race">🏁 Relay Race (Team of 4)</option>
-
-                <option value="Carrom (Doubles or Mix Double)">🎯 Carrom (Doubles or Mix Double)</option>
-                <option value="Carrom (Singles)">🎯 Carrom (Singles)</option>
-
-            </select>
-
-            <br><br>
-
-            <button type="submit">Enter</button>
-
-        </form>
+                <button type="submit">View Teams</button>
+            </form>
+        </div>
 
     </div>
 
-</div>
+    <!-- ================= FOOTER NOTE ================= -->
+
+    <p style="margin-top:60px; opacity:0.7; font-size:14px;">
+        © NFSU Tripura Campus • Sports Day Data Portal
+    </p>
 
 </body>
 </html>

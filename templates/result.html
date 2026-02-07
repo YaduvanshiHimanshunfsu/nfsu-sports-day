@@ -1,72 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result</title>
+    <title>{{ sport }} | NFSU Sports Day</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="/static/style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="result-page">
 
-<!-- ================= TITLE ================= -->
+<!-- ======================================================
+     HEADER
+====================================================== -->
 
-<h2>{{ sport }}</h2>
+<div class="result-header">
+    <h1>{{ sport }}</h1>
+    <a href="/" class="back-btn">⬅ Back to Home</a>
+</div>
 
-<!-- ================= NO DATA MESSAGE ================= -->
+<!-- ======================================================
+     NO DATA MESSAGE
+====================================================== -->
 
 {% if grouped_data|length == 0 %}
-<h3 style="text-align:center;color:red;">
-    No data found for this sport
-</h3>
+    <div class="no-data">
+        No data found for this sport.
+    </div>
 {% endif %}
 
-<!-- ================= DATA TABLES ================= -->
+<!-- ======================================================
+     CHART SECTION
+====================================================== -->
+
+{% if grouped_data|length > 0 %}
+
+<div class="chart-section">
+    <h2>📊 Participation Overview</h2>
+
+    <div class="chart-box">
+        <canvas id="programmeChart"></canvas>
+    </div>
+
+    <br><br>
+
+    <div class="chart-box">
+        <canvas id="semesterChart"></canvas>
+    </div>
+</div>
+
+<!-- JSON DATA FOR CHARTS -->
+<script id="programme-data" type="application/json">
+    {{ programme_chart | tojson }}
+</script>
+
+<script id="semester-data" type="application/json">
+    {{ semester_chart | tojson }}
+</script>
+
+{% endif %}
+
+<!-- ======================================================
+     RESULT TABLES
+====================================================== -->
 
 {% for branch, students in grouped_data.items() %}
 
-<h3>{{ branch }}</h3>
+<div class="result-section">
 
-<div style="overflow-x:auto;">
+    <h2>{{ branch }}</h2>
 
-<table>
+    <div class="table-wrapper">
 
-<tr>
-    <th>S.No</th>
-    <th>Full Name</th>
-    <th>Semester</th>
-    <th>Gender</th>
-    <th>Programme / Branch</th>
-    <th>Phone Number</th>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Full Name</th>
+                    <th>Semester</th>
+                    <th>Gender</th>
+                    <th>Programme / Branch</th>
+                    <th>Phone Number</th>
 
-    {% if team %}
-        <th>Team Members</th>
-    {% endif %}
-</tr>
+                    {% if team %}
+                        <th>Team Members</th>
+                    {% endif %}
+                </tr>
+            </thead>
 
-{% for row in students %}
-<tr>
-    <td>{{ row["SNO"] }}</td>
-    <td>{{ row["Full Name"] }}</td>
-    <td>{{ row["Semester"] }}</td>
-    <td>{{ row["Gender"] }}</td>
-    <td>{{ row["Programme / Branch"] }}</td>
-    <td>{{ row["Phone Number"] }}</td>
+            <tbody>
+                {% for row in students %}
+                <tr>
+                    <td>{{ row["SNO"] }}</td>
+                    <td>{{ row["Full Name"] }}</td>
+                    <td>{{ row["Semester"] }}</td>
+                    <td>{{ row["Gender"] }}</td>
+                    <td>{{ row["Programme / Branch"] }}</td>
+                    <td>{{ row["Phone Number"] }}</td>
 
-    {% if team %}
-        <td>{{ row[team_col] }}</td>
-    {% endif %}
-</tr>
-{% endfor %}
+                    {% if team %}
+                        <td>{{ row[team_col] }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-</table>
+    </div>
 
 </div>
 
 {% endfor %}
 
-<!-- ================= BACK ================= -->
+<!-- ======================================================
+     FOOTER
+====================================================== -->
 
-<a href="/">⬅ Back to Home</a>
+<p style="text-align:center; margin-top:60px; opacity:0.7; font-size:14px;">
+    © NFSU Tripura Campus • Sports Day Data Portal
+</p>
+
+<!-- ======================================================
+     JS
+====================================================== -->
+
+<script src="/static/charts.js"></script>
 
 </body>
 </html>
