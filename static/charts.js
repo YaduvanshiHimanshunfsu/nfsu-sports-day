@@ -1,135 +1,116 @@
-/* ============================================================
-   NFSU SPORTS DAY – CHART ENGINE
-   Handles Pie + Bar charts with % and responsiveness
-============================================================ */
-
-/* ---------------- SAFE JSON PARSER ---------------- */
-
-function readJSON(id) {
-    const el = document.getElementById(id);
-    if (!el) return null;
-    try {
-        return JSON.parse(el.textContent);
-    } catch (e) {
-        console.error("Invalid JSON in", id);
-        return null;
-    }
-}
-
-/* ---------------- COLOR PALETTE ---------------- */
-
-const COLORS = [
-    "#42a5f5",
-    "#ffeb3b",
-    "#66bb6a",
-    "#ef5350",
-    "#ab47bc",
-    "#ffa726",
-    "#26c6da",
-    "#8d6e63"
-];
-
-/* ============================================================
-   PIE CHART – PROGRAMME WISE
-============================================================ */
-
-function renderProgrammePie() {
-
-    const data = readJSON("programme-data");
-    if (!data) return;
-
-    const labels = Object.keys(data);
-    const values = Object.values(data);
-
-    const ctx = document.getElementById("programmeChart");
-    if (!ctx) return;
-
-    new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: labels,
-            datasets: [{
-                data: values,
-                backgroundColor: COLORS
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "bottom"
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const total = context.dataset.data.reduce((a,b)=>a+b,0);
-                            const value = context.raw;
-                            const percent = ((value / total) * 100).toFixed(1);
-                            return `${context.label}: ${value} (${percent}%)`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-/* ============================================================
-   BAR CHART – SEMESTER WISE
-============================================================ */
-
-function renderSemesterBar() {
-
-    const data = readJSON("semester-data");
-    if (!data) return;
-
-    const labels = Object.keys(data);
-    const values = Object.values(data);
-
-    const ctx = document.getElementById("semesterChart");
-    if (!ctx) return;
-
-    new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "Number of Students",
-                data: values,
-                backgroundColor: "#1a237e"
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return `Students: ${context.raw}`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-/* ============================================================
-   INITIALIZE ALL CHARTS
-============================================================ */
+/* =====================================================
+   NFSU SPORTS DAY – CHARTS (FINAL CLEAN VERSION)
+===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-    renderProgrammePie();
-    renderSemesterBar();
+
+    const dataBox = document.getElementById("chartData");
+    if (!dataBox) return;
+
+    const programmeData = JSON.parse(dataBox.dataset.programme || "{}");
+    const semesterData  = JSON.parse(dataBox.dataset.semester || "{}");
+
+    /* ---------- COLORS ---------- */
+    const COLORS = [
+        "#1a237e", "#42a5f5", "#ffeb3b",
+        "#66bb6a", "#ff7043", "#ab47bc"
+    ];
+
+    /* =====================================================
+       PIE CHART – PROGRAMME
+    ===================================================== */
+    const pieCanvas = document.getElementById("programmeChart");
+
+    if (pieCanvas && Object.keys(programmeData).length > 0) {
+
+        new Chart(pieCanvas, {
+            type: "pie",
+            data: {
+                labels: Object.keys(programmeData),
+                datasets: [{
+                    data: Object.values(programmeData),
+                    backgroundColor: COLORS,
+                    borderColor: "#ffffff",
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: 20
+                },
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            color: "#000",
+                            font: {
+                                size: 14,
+                                weight: "600"
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (ctx) {
+                                const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                const val = ctx.raw;
+                                const percent = ((val / total) * 100).toFixed(1);
+                                return `${ctx.label}: ${val} (${percent}%)`;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true,
+                    duration: 1200
+                }
+            }
+        });
+    }
+
+    /* =====================================================
+       BAR CHART – SEMESTER
+    ===================================================== */
+    const barCanvas = document.getElementById("semesterChart");
+
+    if (barCanvas && Object.keys(semesterData).length > 0) {
+
+        new Chart(barCanvas, {
+            type: "bar",
+            data: {
+                labels: Object.keys(semesterData),
+                datasets: [{
+                    label: "Participants",
+                    data: Object.values(semesterData),
+                    backgroundColor: "#42a5f5",
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: { color: "#000" },
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: "#000", stepSize: 1 }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: "easeOutQuart"
+                }
+            }
+        });
+    }
 });

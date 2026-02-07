@@ -2,36 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- Responsive Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>NFSU Tripura Campus Sports Day</title>
 
-    <!-- CSS -->
+    <!-- Main CSS -->
     <link rel="stylesheet" href="/static/style.css">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- SEO / Meta -->
+    <meta name="description" content="NFSU Tripura Campus Sports Day – Participation Data Portal">
 </head>
 
 <body class="home">
 
-    <!-- ================= MAIN TITLE ================= -->
+    <!-- =====================================================
+         MAIN TITLE
+    ====================================================== -->
 
-    <h1 class="title">
-        NFSU Tripura Campus <br> Sports Day
-    </h1>
+    <header>
+        <h1 class="title">
+            NFSU Tripura Campus <br>
+            <span style="font-weight:600;">Sports Day</span>
+        </h1>
+    </header>
 
-    <!-- ================= CARDS CONTAINER ================= -->
+    <!-- =====================================================
+         SELECTION CARDS
+    ====================================================== -->
 
-    <div class="container">
+    <main class="container">
 
-        <!-- ============ INDIVIDUAL SPORTS CARD ============ -->
+        <!-- ================= INDIVIDUAL SPORTS ================= -->
 
-        <div class="card">
+        <section class="card">
             <h2>🏃 Individual Sports</h2>
 
-            <form action="/search" method="POST">
-
-                <select name="sport" required>
+            <form action="/search" method="POST" autocomplete="off">
+                <select name="sport" required aria-label="Select Individual Sport">
                     <option value="">— Select Individual Sport —</option>
 
                     <option value="Athletics - Sprint">🏃 Athletics – Sprint (100 m)</option>
@@ -54,23 +66,24 @@
                     <option value="Chinese Checker">🧩 Chinese Checker</option>
                 </select>
 
-                <button type="submit">View Data</button>
+                <button type="submit">
+                    View Participants
+                </button>
             </form>
-        </div>
+        </section>
 
-        <!-- ============ TEAM SPORTS CARD ============ -->
+        <!-- ================= TEAM SPORTS ================= -->
 
-        <div class="card">
+        <section class="card">
             <h2>👥 Team Sports</h2>
 
-            <form action="/search" method="POST">
-
-                <select name="team_sport" required>
+            <form action="/search" method="POST" autocomplete="off">
+                <select name="team_sport" required aria-label="Select Team Sport">
                     <option value="">— Select Team Sport —</option>
 
+                    <option value="Badminton - Singles">🏸 Badminton – Singles</option>
                     <option value="Badminton - Doubles">🏸 Badminton – Doubles</option>
                     <option value="Badminton - Mixed Doubles">🏸 Badminton – Mixed Doubles</option>
-                    <option value="Badminton - Singles">🏸 Badminton – Singles</option>
 
                     <option value="Table Tennis - Singles">🏓 Table Tennis – Singles</option>
                     <option value="Table Tennis - Doubles">🏓 Table Tennis – Doubles</option>
@@ -78,21 +91,25 @@
 
                     <option value="Relay Race">🏁 Relay Race (Team of 4)</option>
 
-                    <option value="Carrom (Doubles or Mix Double)">🎯 Carrom – Doubles / Mixed</option>
                     <option value="Carrom (Singles)">🎯 Carrom – Singles</option>
+                    <option value="Carrom (Doubles or Mix Double)">🎯 Carrom – Doubles / Mixed</option>
                 </select>
 
-                <button type="submit">View Teams</button>
+                <button type="submit">
+                    View Teams
+                </button>
             </form>
-        </div>
+        </section>
 
-    </div>
+    </main>
 
-    <!-- ================= FOOTER NOTE ================= -->
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
-    <p style="margin-top:60px; opacity:0.7; font-size:14px;">
-        © NFSU Tripura Campus • Sports Day Data Portal
-    </p>
+    <footer style="margin-top:60px; opacity:0.75; font-size:14px; text-align:center;">
+        © <strong>NFSU Tripura Campus</strong> • Sports Day Data Portal
+    </footer>
 
 </body>
 </html>

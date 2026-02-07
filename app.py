@@ -38,7 +38,7 @@ df = df.fillna("")
 def normalize(text: str) -> str:
     text = str(text).lower()
     text = text.replace("–", "-")
-    text = re.sub(r"[^\w\s\-]", "", text)   # remove emojis/symbol noise
+    text = re.sub(r"[^\w\s\-]", "", text)   # remove emojis/symbols
     text = re.sub(r"\s+", " ", text)
     return text.strip()
 
@@ -51,10 +51,11 @@ df["TEAM_NORM"]  = df[COL_TEAM].apply(normalize)
 
 SEM_MAP = {
     "i": 1, "ii": 2, "iii": 3, "iv": 4,
-    "v": 5, "vi": 6, "vii": 7, "viii": 8
+    "v": 5, "vi": 6, "vii": 7, "viii": 8,
+    "ix": 9, "x": 10
 }
 
-def semester_key(value):
+def semester_key(value: str) -> int:
     value = normalize(value).replace("semester", "")
     return SEM_MAP.get(value, 99)
 
@@ -62,16 +63,17 @@ def semester_key(value):
 # FIND TEAM MEMBER COLUMN (ROBUST)
 # ============================================================
 
-def find_team_member_column(team_name):
+def find_team_member_column(team_name: str):
     key = normalize(team_name).split("-")[0]
 
     for col in df.columns:
         col_norm = normalize(col)
-        if (
-            "team member" in col_norm
-            or "team members" in col_norm
-            or "enter names" in col_norm
-        ):
+        if any(k in col_norm for k in [
+            "team member",
+            "team members",
+            "enter names",
+            "partner name"
+        ]):
             if key in col_norm:
                 return col
     return None
@@ -82,7 +84,6 @@ def find_team_member_column(team_name):
 
 def group_by_branch(data: pd.DataFrame):
     data = data.copy()
-
     data["_SEM_KEY"] = data[COL_SEM].apply(semester_key)
     data = data.sort_values("_SEM_KEY")
 
@@ -99,13 +100,11 @@ def group_by_branch(data: pd.DataFrame):
 # CHART DATA BUILDERS
 # ============================================================
 
-def build_programme_chart(data):
-    counts = Counter(data[COL_BRANCH])
-    return dict(counts)
+def programme_chart(data: pd.DataFrame):
+    return dict(Counter(data[COL_BRANCH]))
 
-def build_semester_chart(data):
-    counts = Counter(data[COL_SEM])
-    return dict(counts)
+def semester_chart(data: pd.DataFrame):
+    return dict(Counter(data[COL_SEM]))
 
 # ============================================================
 # ROUTES
@@ -125,9 +124,9 @@ def search():
     individual = request.form.get("sport")
     team = request.form.get("team_sport")
 
-    # --------------------------------------------------------
+    # ========================================================
     # INDIVIDUAL SPORTS
-    # --------------------------------------------------------
+    # ========================================================
 
     if individual:
         key = normalize(individual).split("(")[0]
@@ -138,47 +137,79 @@ def search():
             [COL_NAME, COL_SEM, COL_GENDER, COL_BRANCH, COL_PHONE]
         ]
 
-        grouped_data = group_by_branch(result)
-
         return render_template(
             "result.html",
             sport=individual,
-            grouped_data=grouped_data,
+            grouped_data=group_by_branch(result),
             team=False,
-            programme_chart=build_programme_chart(result),
-            semester_chart=build_semester_chart(result)
+            programme_chart=programme_chart(result),
+            semester_chart=semester_chart(result)
         )
 
-    # --------------------------------------------------------
-    # TEAM SPORTS
-    # --------------------------------------------------------
+    # ========================================================
+    # TEAM SPORTS (SMART HANDLING)
+    # ========================================================
 
     if team:
-        key = normalize(team).split("-")[0]
+        key = normalize(team)
 
         filtered = df[df["TEAM_NORM"].str.contains(key, na=False)]
 
+        # -------------------------------
+        # SINGLES (NO TEAM MEMBERS)
+        # -------------------------------
+        if any(k in key for k in ["single", "singles"]):
+
+            result = filtered[
+                [COL_NAME, COL_SEM, COL_GENDER, COL_BRANCH, COL_PHONE]
+            ]
+
+            return render_template(
+                "result.html",
+                sport=team,
+                grouped_data=group_by_branch(result),
+                team=False,
+                programme_chart=programme_chart(result),
+                semester_chart=semester_chart(result)
+            )
+
+        # -------------------------------
+        # DOUBLES / TEAM SPORTS
+        # -------------------------------
         team_col = find_team_member_column(team)
-        if not team_col:
-            return f"❌ Team member column not found for {team}"
 
+        if team_col:
+            result = filtered[
+                [COL_NAME, COL_SEM, COL_GENDER, COL_BRANCH, COL_PHONE, team_col]
+            ]
+
+            return render_template(
+                "result.html",
+                sport=team,
+                grouped_data=group_by_branch(result),
+                team=True,
+                team_col=team_col,
+                programme_chart=programme_chart(result),
+                semester_chart=semester_chart(result)
+            )
+
+        # -------------------------------
+        # FALLBACK (NO TEAM COLUMN FOUND)
+        # -------------------------------
         result = filtered[
-            [COL_NAME, COL_SEM, COL_GENDER, COL_BRANCH, COL_PHONE, team_col]
+            [COL_NAME, COL_SEM, COL_GENDER, COL_BRANCH, COL_PHONE]
         ]
-
-        grouped_data = group_by_branch(result)
 
         return render_template(
             "result.html",
-            sport=team,
-            grouped_data=grouped_data,
-            team=True,
-            team_col=team_col,
-            programme_chart=build_programme_chart(result),
-            semester_chart=build_semester_chart(result)
+            sport=f"{team} (team details not provided)",
+            grouped_data=group_by_branch(result),
+            team=False,
+            programme_chart=programme_chart(result),
+            semester_chart=semester_chart(result)
         )
 
-    return "❌ No sport selected"
+    return "No sport selected"
 
 # ============================================================
 # RUN SERVER

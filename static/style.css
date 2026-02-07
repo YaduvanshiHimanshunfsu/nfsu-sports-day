@@ -1,5 +1,5 @@
 /* =====================================================
-   GLOBAL RESET & VARIABLES
+   ROOT VARIABLES
 ===================================================== */
 
 :root{
@@ -9,7 +9,12 @@
     --glass:rgba(255,255,255,0.18);
     --glass-strong:rgba(255,255,255,0.28);
     --dark:#050a28;
+    --white:#ffffff;
 }
+
+/* =====================================================
+   GLOBAL RESET
+===================================================== */
 
 *{
     margin:0;
@@ -27,7 +32,7 @@ body{
     background:
       linear-gradient(rgba(5,10,40,0.75),rgba(5,10,40,0.75)),
       url("/static/imagenfsu.jpg") center/cover fixed;
-    color:white;
+    color:var(--white);
 }
 
 /* =====================================================
@@ -71,7 +76,9 @@ body{
     }
 }
 
-/* ---------- CARD CONTAINER ---------- */
+/* =====================================================
+   CARD CONTAINER
+===================================================== */
 
 .container{
     margin-top:80px;
@@ -112,7 +119,9 @@ body{
     color:#fff;
 }
 
-/* ---------- SELECT ---------- */
+/* =====================================================
+   FORM CONTROLS
+===================================================== */
 
 select{
     width:100%;
@@ -130,8 +139,6 @@ select:hover{
     background:#f5f7ff;
 }
 
-/* ---------- BUTTON ---------- */
-
 button{
     margin-top:25px;
     padding:15px 50px;
@@ -141,27 +148,7 @@ button{
     border-radius:40px;
     font-size:16px;
     cursor:pointer;
-    position:relative;
-    overflow:hidden;
     transition:0.4s;
-}
-
-button::after{
-    content:"";
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:0;
-    height:0;
-    background:rgba(255,255,255,0.4);
-    border-radius:50%;
-    transform:translate(-50%,-50%);
-    transition:0.6s;
-}
-
-button:hover::after{
-    width:350px;
-    height:350px;
 }
 
 button:hover{
@@ -176,10 +163,10 @@ button:hover{
     padding-bottom:90px;
 }
 
-/* ---------- RESULT HEADER ---------- */
+/* ---------- HEADER ---------- */
 
 .result-header{
-    margin-top:35px;
+    margin-top:40px;
     text-align:center;
 }
 
@@ -195,53 +182,62 @@ button:hover{
     color:#fff;
     text-decoration:none;
     font-size:18px;
-    opacity:0.9;
 }
 
 .back-btn:hover{
-    opacity:1;
     text-decoration:underline;
 }
 
-/* ---------- CHART SECTION ---------- */
+/* =====================================================
+   CHART SECTION
+===================================================== */
 
 .chart-section{
-    width:90%;
-    margin:50px auto;
+    width:92%;
+    max-width:1100px;
+    margin:60px auto;
     padding:30px;
     background:var(--glass);
-    backdrop-filter:blur(12px);
-    border-radius:20px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.5);
-    animation: fadeUp 0.8s ease;
+    backdrop-filter:blur(14px);
+    border-radius:22px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.55);
 }
 
 .chart-section h2{
     text-align:center;
-    margin-bottom:20px;
+    margin-bottom:35px;
     color:var(--accent);
+    font-size:26px;
 }
+
+/* ---------- CHART BOX ---------- */
 
 .chart-box{
     display:flex;
     justify-content:center;
     align-items:center;
+    margin-bottom:40px;
 }
 
+/* IMPORTANT: makes chart readable */
 canvas{
+    width:100% !important;
     max-width:420px;
+    height:auto !important;
+    background:#ffffff;
+    border-radius:14px;
+    padding:12px;
 }
 
-/* ---------- BRANCH TITLE ---------- */
+/* =====================================================
+   DATA TABLES
+===================================================== */
 
 .result-section h2{
     margin:45px 6% 10px;
     font-size:22px;
     color:var(--accent);
-    text-shadow:0 0 8px black;
 }
-
-/* ---------- TABLE ---------- */
 
 .table-wrapper{
     overflow-x:auto;
@@ -256,7 +252,6 @@ table{
     border-radius:15px;
     overflow:hidden;
     box-shadow:0 20px 35px rgba(0,0,0,0.6);
-    animation: fadeUp 0.7s ease;
 }
 
 th{
@@ -280,7 +275,9 @@ tr:hover{
     background:#e0e7ff;
 }
 
-/* ---------- NO DATA ---------- */
+/* =====================================================
+   NO DATA
+===================================================== */
 
 .no-data{
     margin-top:60px;
@@ -292,11 +289,6 @@ tr:hover{
 /* =====================================================
    ANIMATIONS
 ===================================================== */
-
-@keyframes fadeUp{
-    from{opacity:0; transform:translateY(25px);}
-    to{opacity:1; transform:translateY(0);}
-}
 
 @keyframes fadeIn{
     from{opacity:0;}
@@ -353,7 +345,7 @@ tr:hover{
     }
 }
 
-/* Very small phones */
+/* Small Phones */
 @media(max-width:480px){
 
     .title{font-size:28px;}
